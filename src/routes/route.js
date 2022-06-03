@@ -92,18 +92,10 @@ router.get('/films', function (req, res) {
          "id": 3,
          "name": "Finding Nemo"
         }]
-        let ids = req.params.id;
-           
-  
-          
-  
-            for (var i = 0; i < movies.length; i++) {
-                if (movies[i].id == ids) {
-                    res.send(movies[i])
-                   
-                }
-                else
-                { res.send('No movie with this id')}
+        if(req.params.id>=movies.length){
+            res.send("No movie with this id")}
+            else{
+                res.send(movies[req.params.id])
             }
             
         
