@@ -69,6 +69,41 @@ router.post("/test-post-4", function(req, res) {
     arr.push(ele)
     res.send(  { msg: arr , status: true }  )
 })
+
+router.get("/missingNumber1", function (req, res) {
+    let arr= [1,2,3,4,6,7]
+  
+    let total = 0;
+    for (var i in arr) {
+        total += arr[i];
+    }
+  
+    let lastDigit= arr.pop()
+    let consecutiveSum= lastDigit * (lastDigit+1) / 2
+    let missingNumber= consecutiveSum - total
+  
+    res.send(  { missingNumber  }  );
+  });
+
+  router.get("/missingNumber2", function (req, res) {
+    let arr= [33, 34, 35, 37, 38]
+    let len= arr.length
+  
+    let total = 0;
+    for (var i in arr) {
+        total += arr[i];
+    }
+  
+    let firstDigit= arr[0]
+    let lastDigit= arr.pop()
+    let consecutiveSum= (len + 1) * (firstDigit+ lastDigit ) / 2
+    let missingNumber= consecutiveSum - total
+   
+    res.send(  { missingNumber  }  );
+  });
+ 
+   
+
 let players =
    [
        {
@@ -102,10 +137,29 @@ let players =
  
 
 
-router.post("/players", function(req, res) {
+   router.post('/players', function (req, res) {
+    
+    let newPlayer = req.body
+    let newPlayersName = newPlayer.name
+    let isNameRepeated = false
+
+
+    for(let i = 0; i < players.length; i++) {
+        if(players[i].name == newPlayersName) {
+            isNameRepeated = true;
+            break;
+        }
+    }
+
    
-    let ele= req.body
-    players.push(ele)
-    res.send(  { msg: players , status: true }  )
-})
+    if (isNameRepeated) {
+    
+        res.send("This player was already added!")
+    } else {
+    
+        players.push(newPlayer)
+        res.send(players)
+    }
+});
+
 module.exports = router;
