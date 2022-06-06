@@ -64,19 +64,20 @@ const getBooksData= async function (req, res) {
     // let allBooks= await BookModel.find( { bookName:  /.*Programming.*/i  }) 
     
     // ASYNC AWAIT
-    
-    let a= 2+4
-    a= a + 10
-    console.log(a)
-    let allBooks= await BookModel.find( )  //normally this is an asynchronous call..but await makes it synchronous
-
-
-    // WHEN AWAIT IS USED: - database + axios
-    //  AWAIT can not be used inside forEach , map and many of the array functions..BE CAREFUL
-    console.log(allBooks)
-    let b = 14
-    b= b+ 10
-    console.log(b)
+    // // WHEN AWAIT IS USED: - database + axios
+    // //  AWAIT can not be used inside forEach , map and many of the array functions..BE CAREFUL
+    // let a= 2+4
+    // a= a + 10
+    // // console.log(a)
+    // let allBooks= await BookModel.find( ).select({bookName: 1 , authorName: 1 ,_id: 0})  //normally this is an asynchronous call..but await makes it synchronous
+//    let writeYear=req.query.writeYear
+//     let allBooks= await BookModel.find({year: writeYear} )
+    //   let data= req.body
+    //  let allBooks= await BookModel.find(data)
+        //  let allBooks= await BookModel.find({$or: [ {'prices.indianPrice' : "INR 50"} , {'prices.indianPrice' : "INR 150"} ,{'prices.indianPrice' : "INR 250" }]})
+        let allBooks= await BookModel.find({stockAvailable:true , totalPages: {$gt:300 } })
+        // let allBooks= await BookModel.find({ prices: { indianPrice : { $in: ["INR 50","INR 150", "INR 250"]} }     })
+   
     res.send({msg: allBooks})
 }
 
