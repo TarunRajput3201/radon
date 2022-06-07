@@ -75,7 +75,7 @@ const getBooksData= async function (req, res) {
     //   let data= req.body
     //  let allBooks= await BookModel.find(data)
         //  let allBooks= await BookModel.find({$or: [ {'prices.indianPrice' : "INR 50"} , {'prices.indianPrice' : "INR 150"} ,{'prices.indianPrice' : "INR 250" }]})
-        let allBooks= await BookModel.find({stockAvailable:true , totalPages: {$gt:300 } })
+        // let allBooks= await BookModel.find({stockAvailable:true , totalPages: {$gt:300 } })
         // let allBooks= await BookModel.find({ prices: { indianPrice : { $in: ["INR 50","INR 150", "INR 250"]} }     })
    
     res.send({msg: allBooks})
