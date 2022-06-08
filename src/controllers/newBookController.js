@@ -30,16 +30,29 @@ const getNewBooksData= async function (req, res) {
     res.send({msg: authorName})
 
 }
-const getAuthorsData= async function (req, res) {
-
-    let allBooks= await authorsModel.find( )
+const get_book_by_author_id= async function (req, res) {
+let authorId=req.params.authorId
+    let allBooks= await newBookModel.find({author_id : authorId} ).select({name:1,_id:0})
 
    
    res.send({msg: allBooks})
 }
+const get_aged_authors= async function (req, res) {
+    
+    let bookData= await newBookModel.find({ratings :{$gte:4}}).select({author_id:1 ,_id:0})
+    let authorName=[]
+    for(let i=0 ; i<bookData.length ; i++){
+        authorName[i]= await authorsModel.find({$and: [{age:{$gt:50}},bookData[i]]}).select({author_name:1 , age:1, _id:0})
+     
+     }
+       
+       res.send({msg: authorName})
+    }
+
 
 
 module.exports.createNewBook= createNewBook
 module.exports.getNewBooksData= getNewBooksData
 module.exports.createAuthor= createAuthor
-module.exports.getAuthorsData= getAuthorsData
+module.exports.get_book_by_author_id= get_book_by_author_id
+module.exports.get_aged_authors= get_aged_authors

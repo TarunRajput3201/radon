@@ -25,6 +25,8 @@ router.get("/getnewBooksData", newBookController.getNewBooksData)
 
 router.post("/createAuthor", newBookController.createAuthor  )
 
-router.get("/getAuthorssData", newBookController.getAuthorsData)
+router.get("/get_book_by_author_id/:authorId", newBookController.get_book_by_author_id)
+
+router.get("/get_aged_authors" ,  newBookController.get_aged_authors )
 
 module.exports = router;
