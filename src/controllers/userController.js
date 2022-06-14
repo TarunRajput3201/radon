@@ -12,6 +12,7 @@ const createUser = async function (abcd, xyz) {
 };
 
 const loginUser = async function (req, res) {
+  
   let userName = req.body.emailId;
   let password = req.body.password;
 
@@ -21,7 +22,6 @@ const loginUser = async function (req, res) {
       status: false,
       msg: "username or the password is not corerct",
     });
-
   // Once the login is successful, create the jwt token with sign function
   // Sign function has 2 inputs:
   // Input 1 is the payload or the object containing data to be set in token
@@ -71,7 +71,11 @@ const updateUser = async function (req, res) {
 // Check if the token is present
 // Check if the token present is a valid token
 // Return a different error message in both these cases
+let token = req.headers["x-Auth-token"];
+if (!token) token = req.headers["x-auth-token"];
 
+//If no token is present in the request header return error
+if (!token) return res.send({ status: false, msg: "token must be present" });
   let userId = req.params.userId;
   let user = await userModel.findById(userId);
   //Return an error if no user with the given id exists in the db
@@ -80,11 +84,23 @@ const updateUser = async function (req, res) {
   }
 
   let userData = req.body;
-  let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData);
+  let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData, {new:true});
   res.send({ status: updatedUser, data: updatedUser });
 };
+const deleteUser= async function(req,res){
+  let token = req.headers["x-Auth-token"];
+    if (!token) token = req.headers["x-auth-token"];
+  
+    
+    if (!token) return res.send({ status: false, msg: "token must be present" });
+  let userId=req.params.userId
+  let deleteuser= await userModel.findOneAndUpdate({userId}, {$set: {isDeleted:true}},{new:true})
+  res.send({ status: deleteuser})
+}
+
 
 module.exports.createUser = createUser;
 module.exports.getUserData = getUserData;
 module.exports.updateUser = updateUser;
 module.exports.loginUser = loginUser;
+module.exports.deleteUser = deleteUser;
