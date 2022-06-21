@@ -1,9 +1,10 @@
-const author = require('../middleware/middleware.js')
+const author = require('../models/authorModel')
+//const Blogmodel = require('../controllers/blogController')
 
 let validAuthorId = async function(req,res,next){
    try {
      let id = req.body.authorId
-    let check = await author.findOne({authorId : id})
+    let check = await author.findById(id)
     if(!check){
       res.status(400).send({status: false, msg : "No such author is exists"})
     }
