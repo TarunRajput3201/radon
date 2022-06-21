@@ -46,3 +46,30 @@ Create API's to do each of the following:
                     "url": "https://i.imgflip.com/5mvxax.jpg",
                     "page_url": "https://imgflip.com/i/5mvxax"
                 }
+
+
+
+                http://api.openweathermap.org/data/2.5/group?id=   2643743,,2643743&units=metric
+
+
+
+
+
+                router.post("/something" ,middleware.mid1, )
+                
+                app.use("/" ,function(req,res,next){
+
+                    next()
+                })
+
+axios.get('url')
+let anything={
+    method:"post"
+    url:"url"
+    data :"something"
+}
+
+
+
+
+
