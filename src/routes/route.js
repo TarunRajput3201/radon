@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const AuthorController= require("../controllers/authorController.js")
+const blogController = require("../controllers/blogController.js")
+const mid= require("../middlewares/middleware.js")
 
-router.post("/authors", AuthorController.createAuthor)
+router.post("/createBlog", mid.validateAuthorId, blogController.createBlog)
 
 module.exports = router;
