@@ -1,5 +1,5 @@
 const { count } = require("console")
-const AuthorModel = require("../models/Author")
+const AuthorModel = require("../models/authorModel")
 
 
 const createAuthor = async function (req, res) {
