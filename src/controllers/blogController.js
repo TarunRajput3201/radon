@@ -3,6 +3,7 @@ const author = require('../models/authorModel.js')
 const { findOneAndUpdate } = require('../models/blogModel.js')
 const blog =require('../models/blogModel.js')
 
+
 let createBlog = async function(req,res){
    try{
      let data = req.body
@@ -30,11 +31,8 @@ catch(err){
 
 let filterBlogs = async function(req,res){
    try{
-     let authorId = req.query.authorId
-    let category = req.query.category
-    let tags = req.query.tags
-    let subcategory = req.query.subcategory
-    let data = await blog.find({ $or: [{"authorId":authorId},{"category":category},{"tags":tags},{"subcategory":subcategory}]})
+     let a=req.query
+    let data = await blog.find(a)
     if(data.length>0){
         res.status(200).send({status : true, data : data})
     } else {
@@ -45,11 +43,7 @@ catch(err){
     res.status(500).send({error : err.message})
 }
 }
-// let updateBlog= async function(req,res){
-//    try{let id=req.params.blogId
-//     let a=req.body
-//     let update= await blog.findOneAndUpdate({"_id": id}, {$set: a} ,{new:true}) 
-//     res.status(200).send({status:true,msg: update})
+
 
 let update1 = async function(req,res){
     try {
@@ -90,8 +84,8 @@ let update1 = async function(req,res){
        let blogId = req.params.blogId
        let data =await blog.find({_id:blogId,isDeleted:false})
        if(data.length>0){
-        let DeleteBlog = await blog.findOneAndUpdate({_id: blogId}, {isDeleted: true , deletedAt:Date.now()}, {new: true})
-        res.status(200)
+        let DeleteBlog = await blog.findOneAndUpdate({_id: blogId}, {$set:{isDeleted: true , deletedAt:Date.now()}}, {new: true})
+        res.status(200).send({status:"deleted"})
 
        }
        else{res.status(404).send({status:false, msg: "no document found"})}
@@ -102,12 +96,9 @@ let update1 = async function(req,res){
     }
     let deleteBlogs = async function(req,res){
         try{
-            let blogId = req.params.blogId 
-          let authorId = req.query.authorId
-         let category = req.query.category
-         let tags = req.query.tags
-         let subcategory = req.query.subcategory
-         let data = await blog.findOneAndUpdate({_id: blogId}, {$set:{ $and: [{"authorId":authorId},{"category":category},{"tags":tags},{"subcategory":subcategory}]}}, {new:true})
+            let a=req.query
+         
+         let data = await blog.findOneAndUpdate({a, isDeleted:false}, {$set:{isDeleted:true,deletedAt:Date.now()}}, {new:true})
          if(data.length>0){
              res.status(200).send({status : true, data : data})
          } else {
@@ -121,7 +112,7 @@ let update1 = async function(req,res){
 
 
 
-
+     
 module.exports.createBlog=createBlog
 module.exports.getBlogs=getBlogs
 module.exports.filterBlogs=filterBlogs
